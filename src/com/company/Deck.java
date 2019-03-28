@@ -1,5 +1,4 @@
 package com.company;
-
 import java.util.List;
 import java.util.ArrayList;
 
@@ -31,12 +30,15 @@ public class Deck {
      * @param suits is an array containing all of the card suits.
      * @param values is an array containing all of the card point values.
      */
-    public Deck(String[] ranks, String[] suits, int[] values) throws NullPointerException{
-        cards = new ArrayList<>();
-        for (int rank = 0; rank < ranks.length; rank++)
-            for (int suit = 0; suit < suits.length; suit++)
-                cards.add(new Card(ranks[rank], suits[suit], values[rank]));
-            this.size = cards.size();
+    public Deck(String[] ranks, String[] suits, int[] values) {
+        cards = new ArrayList<Card>();
+        for (int j = 0; j < ranks.length; j++) {
+            for (String suitString : suits) {
+                cards.add(new Card(ranks[j], suitString, values[j]));
+            }
+        }
+        size = cards.size();
+        shuffle();
     }
 
 
@@ -44,13 +46,17 @@ public class Deck {
      * Determines if this deck is empty (no undealt cards).
      * @return true if this deck is empty, false otherwise.
      */
-    public boolean isEmpty() {  return size==0; }
+    public boolean isEmpty() {
+        return size == 0;
+    }
 
     /**
      * Accesses the number of undealt cards in this deck.
      * @return the number of undealt cards in this deck.
      */
-    public int size() { return size; }
+    public int size() {
+        return size;
+    }
 
     /**
      * Randomly permute the given collection of cards
@@ -66,8 +72,12 @@ public class Deck {
      *         previously dealt.
      */
     public Card deal() {
+        if (isEmpty()) {
+            return null;
+        }
         size--;
-        return cards.get(size);
+        Card c = cards.get(size);
+        return c;
     }
 
     /**
